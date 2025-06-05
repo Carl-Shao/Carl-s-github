@@ -1,0 +1,162 @@
+#include <iostream>
+const int MaxSize = 100;
+template <typename T>
+class Seqlist
+{
+private:
+    T data[MaxSize];
+    int lenth;
+public:
+    Seqlist() : lenth(0) {}
+
+    int getlenth() const
+    {
+        return lenth;
+    }
+
+    bool isempty() const
+    {
+        return lenth == 0;
+    }
+
+    bool isfull() const
+    {
+        return lenth == MaxSize;
+    }
+
+    int appendElem(const T& index) 
+    {
+        if (lenth >= MaxSize)
+        {
+            std::cout << "The form is full. You can't put in it!\n";
+            return 0;
+        }
+        data[lenth] = index;
+        ++ lenth;
+        return 1;
+    }
+
+    int InserTail(const T& index, const int& pos)
+    {
+        if (lenth >= MaxSize)
+        {
+            std::cout << "The form is full. You can't put in it\n";
+            return 0;
+        }
+        if (pos < 1 || pos > lenth)
+        {
+            std::cout << "\aPosition is incorrect!\n";
+            return 0;
+        }
+        if (pos <= lenth)
+        {
+            for (int i = lenth - 1; i >= pos - 1; --i)
+            {
+                data[i + 1] = data[i];
+            }
+            data[pos - 1] = index;
+            ++ lenth;
+        }
+        return 1;
+    }
+
+    int deleteElem(const int& pos, T& deldata)
+    {
+        if (lenth == 0)
+        {
+            std::cout << "\aThe form is empty. You can't delete!\n";
+            return 0;
+        }
+        if (pos < 1 || pos > lenth)
+        {
+            std::cout << "\aPosition is incorrect!\n";
+            return 0;
+        }
+        deldata = data[pos - 1];
+        if (pos <= lenth)
+        {
+            for (int i = pos; i < lenth; ++i)
+            {
+                data[i - 1] = data[i];
+            }
+            -- lenth;
+        }
+        return 1;
+    }
+
+    int findElem(T& index)
+    {
+        if (lenth == 0)
+        {
+            std::cout << "\aThe form is empty. You can't delete!\n";
+            return 0;
+        }
+        for (int i = 0; i < lenth; ++i)
+        {
+            if (data[i] == index)
+            {
+                return i + 1;
+            }
+        }
+        std::cout << "There is no " << index << " in the form!\n";
+        return 0;
+    }
+
+    void showSeqlist() const
+    {
+        for (int i = 0; i < lenth; ++i)
+        {
+            std::cout << data[i] << " ";
+        }
+        std::cout << "\n";
+    }
+}; 
+
+int main()
+{
+    Seqlist<int> list;
+    list.appendElem(88);
+    list.appendElem(67);
+    list.appendElem(40);
+    list.appendElem(8);
+    list.appendElem(23);
+    list.showSeqlist();
+    int x;
+    std::cout << "Enter a value in the end : \n";
+    std::cin >> x;
+    int result1 = list.appendElem(x);
+    if(result1 == 1)
+    {
+        std::cout << "Add successful!\n";
+    }
+    list.showSeqlist();
+    int pos_add;
+    std::cout << "Enter a position you wanna add : \n";
+    std::cin >> pos_add;
+    int y;
+    std::cout << "Enter a value you wanna add : \n";
+    std::cin >> y;
+    int result2 = list.InserTail(y, pos_add);
+    if (result2 == 1)
+    {
+        std::cout << "Add successful\n";
+    }
+    list.showSeqlist();
+    int deldata;
+    int pos_delete;
+    std::cout << "Enter a position you wanna delete : \n";
+    std::cin >> pos_delete; 
+    int result3 = list.deleteElem(pos_delete, deldata);
+    if (result3 == 1)
+    {
+        std::cout << "Delete successful!\n" << "The data you delete is : " << deldata << "\n";
+    }
+    list.showSeqlist();
+    int find;
+    std::cout << "Enter a value you wanna find : \n";
+    std::cin >> find;
+    int result4 = list.findElem(find);
+    std::cout << "It is on " << result4 << " in this form!\n";
+    std::cin.get();
+    std::cin.get();
+}
