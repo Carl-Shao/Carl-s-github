@@ -1,0 +1,163 @@
+#include <iostream>
+const int Maxsize = 100;
+struct ListNode
+{
+    int data;
+    ListNode* next;
+    ListNode(int value) : data(value), next(nullptr) {}
+};
+
+class SinglyList
+{
+private:
+    ListNode* head;
+    ListNode* tail;
+public:
+    SinglyList() : head(nullptr), tail(nullptr) {}
+   
+    int InsertHead(const int& index)
+    {
+        ListNode* newnode = new ListNode(index);
+        if (head == nullptr)
+        {
+            head = newnode;
+            tail = newnode;
+        }
+        else 
+        {
+            newnode -> next = head;
+            head = newnode;
+        }
+        return 1;
+    } 
+
+    int InserTail(const int& index)
+    {
+        ListNode* newnode = new ListNode(index);
+        if (tail == nullptr)
+        {
+            head = newnode;
+            tail = newnode;
+        }
+        else 
+        {
+            tail -> next = newnode;
+            tail = newnode;
+        }
+        return 1;
+    }
+
+    int InsertElem(const int& index, const int& pos)
+    {
+        if (pos < 0)
+        {
+            std::cout << "Position is incorrect!\n";
+        }
+        if (pos == 0)
+        {
+            InsertHead(index);
+            return 1;
+        }
+        ListNode* newnode = new ListNode(index);
+        ListNode* p = head;
+        for (int i = 0; i < pos - 1 && p != nullptr; ++i)
+        {
+            p = p -> next;
+        }
+        if (p == nullptr)
+        {
+            InserTail(index);
+        }
+        else 
+        {
+            newnode -> next = p -> next;
+            p -> next = newnode;
+        }
+        return 1;
+    }
+
+    int deleteElem (const int& pos)
+    {
+        ListNode* p = head;
+        if (pos == 1)
+        {
+            head = p -> next;
+            p -> next = nullptr;
+            return 1;
+        }
+        for (int i = 1; i < pos - 1; ++i)
+        {
+            p = p -> next;
+        }
+        ListNode* q = p -> next;
+        p -> next = q -> next;
+        delete q;
+        return 1;
+    }
+
+    int getlenth() const
+    {
+        int count = 0;
+        if (head == nullptr)
+        {
+            return count;
+        }
+        ListNode* p = head;
+        while (p != nullptr)
+        {
+            p = p -> next;
+            ++ count; 
+        }
+        return count;
+    }
+
+    void freeList()
+    {
+        if (head == nullptr)
+        {
+            return;
+        }
+        ListNode* p = head -> next;
+        while (p != nullptr)
+        {
+            ListNode* q = p;
+            p = p -> next;
+            delete q;
+        }
+        head = nullptr;
+        tail = nullptr;
+    }
+
+    void showList () const
+    {
+        ListNode* p = head;
+        while (p != nullptr)
+        {
+            std::cout << p -> data << " ";
+            p = p -> next;
+        }
+        std::cout << "\n";
+    }
+};
+
+int main()
+{
+    int lenth;
+    SinglyList list;
+    list.InsertHead(10);
+    list.InsertHead(20);
+    list.InserTail(30);
+    list.InserTail(40);
+    list.InsertHead(50);
+    list.InsertHead(60);
+    list.InsertElem(70, 3);
+    list.showList();
+    list.deleteElem(3);
+    list.showList();
+    lenth = list.getlenth();
+    std::cout << lenth << "\n";
+    list.freeList();
+    lenth = list.getlenth();
+    std::cout << lenth << "\n";
+    std::cin.get(); 
+}
