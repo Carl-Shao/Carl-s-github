@@ -1,0 +1,65 @@
+/**
+ * Base class Account
+ * has basic member and function
+ * subclass should override abstract function
+ * The best way to design is set this class to be abstract
+ * But the question require instantiation
+ */
+public class Account {
+
+    protected String accountNumber;
+
+    protected double balance;
+
+    // Construct Function
+    public Account(String accountNumber, double balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+
+    // deposit function: add balance
+    public void deposit(double money) {
+        if (money > 0) {
+            balance += money;
+            System.out.printf("Deposit $%.2f, Now Balance: $%.2f%n", money, balance);
+        } else {
+            System.out.println("Money should be positive.");
+        }
+    }
+
+    // withdraw function: when balance enough decrease balance
+    public void withdraw(double money) {
+        if (money > 0) {
+            if (money <= balance) {
+                balance -= money;
+                System.out.printf("Withdraw $%.2f, Now Balance: $%.2f%n", money, balance);
+            } else {
+                System.out.println("Balance is not enough.");
+            }
+        } else {
+            System.out.println("Money should be positive.");
+        }
+    }
+
+    // abstract function: every subclass should override
+    public double calculateMonthlyFee() {
+        return 0.0;
+    }
+
+    // display all accounts information
+    public void displayAccountInfo() {
+        System.out.println("============== Account Information ==============");
+        System.out.println("Account Number: " + accountNumber);
+        System.out.printf("Balance: $%.2f%n", balance);
+        System.out.printf("Monthly Fee: $%.2f%n", calculateMonthlyFee());
+    }
+
+    // Getter function
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+}
