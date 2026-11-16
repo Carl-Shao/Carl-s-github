@@ -1,0 +1,60 @@
+package com.example.demo;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@Transactional
+public class HelloControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void testEnglishHello() throws Exception {
+        String body = "{\"name\":\"phone\"}";
+
+        mockMvc.perform(post("/hello").contentType("application/json;charset=UTF-8").content(body))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.errno").value(0))
+                .andExpect(jsonPath("$data.name").value("phone"));
+    }
+
+    @Test
+    void getByIdSuccess() throws Exception {
+        mockMvc.perform(get("/hello/{id}", 1))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.errno").value(0))
+                .andExpect(jsonPath("$data.name").value("phone"));
+    }
+
+    @Test
+    void getNotFoundById() throws Exception {
+        mockMvc.perform(get("/hello/{id}", 10086))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void createObjectSuccess() throws Exception {
+        String body = "{\"name\":\"phone\",\"originalPrice\":1899}";
+        mockMvc.perform(post("/hello").contentType("application/json;charset=UTF-8").content(body))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$data.name").value("phone"));
+    }
+
+    @Test
+    void createObjectWithNoName() throws Exception {
+        String body = "{\"originalPrice\":1899}";
+        mockMvc.perform(post("/hello").contentType("application/json;charset=UTF-8").content(body))
+                .andExpect(status().isBadRequest());
+    }
+}
