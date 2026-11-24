@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.Controller"
+      alignment="CENTER"
+      prefHeight="320.0"
+      prefWidth="420.0"
+      spacing="24.0">
+
+    <padding>
+        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0"/>
+    </padding>
+
+    <children>
+        <Label fx:id="label"
+               text="Click a button"
+               textAlignment="CENTER"
+               wrapText="true">
+            <font>
+                <Font size="22.0"/>
+            </font>
+        </Label>
+
+        <HBox alignment="CENTER" spacing="16.0">
+            <children>
+                <Button fx:id="redButton"
+                        mnemonicParsing="false"
+                        onAction="#handleRedButton"
+                        prefWidth="110.0"
+                        text="Red"/>
+                <Button fx:id="greenButton"
+                        mnemonicParsing="false"
+                        onAction="#handleGreenButton"
+                        prefWidth="110.0"
+                        text="Green"/>
+            </children>
+        </HBox>
+    </children>
+</VBox>
